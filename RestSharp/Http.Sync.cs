@@ -264,7 +264,12 @@ namespace RestSharp
                 webRequest.ContentLength = 0;
             }
 
+#if UNITY
+            // disabled automatic decompression because decompression is not fully functional in the NET3.5 subset 
+            webRequest.AutomaticDecompression = DecompressionMethods.None;
+#else
             webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+#endif 
 
 #if FRAMEWORK
             if (this.ClientCertificates != null)

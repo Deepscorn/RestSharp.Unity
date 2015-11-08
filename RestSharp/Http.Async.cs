@@ -453,7 +453,12 @@ namespace RestSharp
                 webRequest.ClientCertificates.AddRange(this.ClientCertificates);
             }
 
+#if UNITY
+            // disabled automatic decompression because decompression is not fully functional in the NET3.5 subset 
+            webRequest.AutomaticDecompression = DecompressionMethods.None;
+#else
             webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+#endif
 
             webRequest.ServicePoint.Expect100Continue = false;
 

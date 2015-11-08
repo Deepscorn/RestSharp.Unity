@@ -24,7 +24,7 @@ using System.Net;
 using System.Text;
 using RestSharp.Extensions;
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || UNITY
 using RestSharp.Compression.ZLib;
 #endif
 
@@ -410,15 +410,21 @@ namespace RestSharp
 
                 Stream webResponseStream = webResponse.GetResponseStream();
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || UNITY
                 if (string.Equals(webResponse.Headers[HttpRequestHeader.ContentEncoding], "gzip", StringComparison.OrdinalIgnoreCase))
                 {
                     GZipStream gzStream = new GZipStream(webResponseStream);
 
                     ProcessResponseStream(gzStream, response);
                 }
-                else
+                else if (string.Equals(webResponse.Headers[HttpRequestHeader.ContentEncoding], "deflate", StringComparison.OrdinalIgnoreCase))
                 {
+                    ZlibStream dfStream = new ZlibStream(webResponseStream);
+                    
+                    ProcessResponseStream(dfStream, response);
+                }
+                else
+                { 
                     ProcessResponseStream(webResponseStream, response);
                 }
 #else
