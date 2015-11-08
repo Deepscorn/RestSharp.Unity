@@ -60,7 +60,7 @@
 // -----------------------------------------------------------------------
 
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || UNITY
 
 using System;
 

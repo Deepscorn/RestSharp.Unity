@@ -61,7 +61,7 @@
 // -----------------------------------------------------------------------
 
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || UNITY
 
 namespace RestSharp.Compression.ZLib
 {
