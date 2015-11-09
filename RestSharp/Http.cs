@@ -411,13 +411,20 @@ namespace RestSharp
                 Stream webResponseStream = webResponse.GetResponseStream();
 
 #if WINDOWS_PHONE || UNITY
-                if (string.Equals(webResponse.Headers[HttpRequestHeader.ContentEncoding], "gzip", StringComparison.OrdinalIgnoreCase))
+                string contentEncoding;
+                try {
+                    contentEncoding = webResponse.Headers[HttpRequestHeader.ContentEncoding];
+                } catch {
+                    contentEncoding = "";
+                }
+                    
+                if (string.Equals(contentEncoding, "gzip", StringComparison.OrdinalIgnoreCase))
                 {
                     GZipStream gzStream = new GZipStream(webResponseStream);
 
                     ProcessResponseStream(gzStream, response);
                 }
-                else if (string.Equals(webResponse.Headers[HttpRequestHeader.ContentEncoding], "deflate", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(contentEncoding, "deflate", StringComparison.OrdinalIgnoreCase))
                 {
                     ZlibStream dfStream = new ZlibStream(webResponseStream);
                     
