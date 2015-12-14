@@ -411,11 +411,9 @@ namespace RestSharp
                 Stream webResponseStream = webResponse.GetResponseStream();
 
 #if WINDOWS_PHONE || UNITY
-                string contentEncoding;
-                try {
-                    contentEncoding = webResponse.Headers[HttpRequestHeader.ContentEncoding];
-                } catch {
-                    contentEncoding = "";
+                string contentEncoding = "";
+                if(webResponse.Headers[HttpResponseHeader.ContentEncoding] != null) { 
+                    contentEncoding = webResponse.Headers[HttpResponseHeader.ContentEncoding];
                 }
                     
                 if (string.Equals(contentEncoding, "gzip", StringComparison.OrdinalIgnoreCase))
