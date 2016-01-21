@@ -145,8 +145,8 @@ namespace RestSharp
             this.AddHandler("*", new XmlDeserializer());
 
             this.FollowRedirects = true;
-
-            ServicePointManager.ServerCertificateValidationCallback = SHA256CertificateManualValidation;
+            
+            ServicePointManager.ServerCertificateValidationCallback = (a, b, c, d) => true;
         }
 
         /// <summary>
